@@ -23,4 +23,3 @@ def scientific_notation(num,trunc=16):
         num = num
     if trunc == 0: trunc-=1 # To delete the floating point from next string
     return sign+str(num)[:trunc+2]+f"*10^{exp}"
-print(scientific_notation(234.76574,1))
