@@ -7,7 +7,6 @@ import pandas as pd
 
 user = input("Introduce user name on Letterboxd: ")
 
-counter_films=0
 page=0
 films_df = pd.DataFrame(columns=["Film Title", "Rating"])
 
@@ -24,19 +23,18 @@ while True:
         # Check if there are films on page
         if films:
             for film_div in films:
-                counter_films += 1
-                rate_span = film_div.parent.find('p', class_='poster-viewingdata').select_one('span')
+                rating_span = film_div.parent.find('p', class_='poster-viewingdata').select_one('span')
                 # If the film is rated by the user, extract the rating
-                if rate_span:
-                    rate_classes = rate_span['class']
-                    rated_class = next((c for c in rate_classes if c.startswith('rated-')), False)
-                    rate = int(rated_class.split('-')[1]) if rated_class else -1
+                if rating_span:
+                    rating_classes = rating_span['class']
+                    rating_class = next((c for c in rating_classes if c.startswith('rated-')), False)
+                    rating = int(rating_class.split('-')[1]) if rating_class else -1
                 else:
-                    rate=None
-                if rate:
-                    films_df = films_df._append({"Film Title": film_div.find('img')['alt'], "Rating": rate}, ignore_index=True)
+                    rating = False
+                if rating:
+                    films_df = films_df._append({"Film Title": film_div.find('img')['alt'], "Rating": rating}, ignore_index=True)
                 else:
-                    films_df = films_df._append({"Film Title": film_div.find('img')['alt'], "Rating": rate}, ignore_index=True)
+                    films_df = films_df._append({"Film Title": film_div.find('img')['alt']}, ignore_index=True)
         else:
             print(f"{page-1} pages read.")
             break
@@ -46,4 +44,7 @@ while True:
         continue
 
 for index, (film_title, rating) in enumerate(zip(films_df["Film Title"], films_df["Rating"])):
-    print(f"{index+1}. {film_title} ({rating}/10)")
+    if pd.isna(rating):
+        print(f"{index+1}. {film_title}")
+    else:
+        print(f"{index+1}. {film_title} ({rating}/10)")
