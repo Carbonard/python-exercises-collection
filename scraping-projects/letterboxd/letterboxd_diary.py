@@ -37,12 +37,6 @@ class SearchContext:
 
 context = SearchContext()
 
-# Loads HTML content from a local file for offline testing.
-def get_html_local():
-    url = "Exercises/scraping-projects/LetterboxdDiary.html"
-    with open(url,'r', encoding='utf-8') as f:
-        return f.read()
-
 # Loads HTML content from Letterboxd's diary pages.
 def get_html(user,page):
     url = "https://embed.letterboxd.com/" + user + "/films/diary/page/" + str(page) + "/"
@@ -114,4 +108,4 @@ while not context.search_finished:
 
 # Convert collected data to Pandas DataFrame and save as CSV.
 films_df = pd.DataFrame(context.films_data)
-films_df.to_csv(path.join("Exercises","scraping-projects","Letterboxd",f"diary_{user}.csv"), index=False)
+films_df.to_csv(path.join("Exercises","scraping-projects","letterboxd",f"diary-{user}.csv"), index=False)
