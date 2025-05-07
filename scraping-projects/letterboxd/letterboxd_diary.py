@@ -108,4 +108,4 @@ while not context.search_finished:
 
 # Convert collected data to Pandas DataFrame and save as CSV.
 films_df = pd.DataFrame(context.films_data)
-films_df.to_csv(path.join("Exercises","scraping-projects","letterboxd",f"diary-{user}.csv"), index=False)
+films_df.to_csv(path.join("scraping-projects","letterboxd",f"diary-{user}.csv"), index=False)
