@@ -7,6 +7,10 @@ Requirements:
     - A database named 'letterboxd' must exist.
     - Input CSV file format: diary-<username>.csv (e.g. diary-john.csv).
     - CSV files must be placed in ./data-analysis/letterboxd-analysis-sql/ and be readable by the PostgreSQL service.
+	- A `.env` file must exist in the root of the project with the following variables:
+
+        SQL_USER=<your_sql_user>
+        SQL_PASSWORD=<your_sql_password>
 
 Limitations:
     - Designed for PostgreSQL only (due to COPY FROM command).
@@ -17,14 +21,16 @@ import psycopg
 from psycopg import sql
 from pathlib import Path
 import pandas as pd
-from getpass import getpass
+from dotenv import load_dotenv
+import os
 
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
 pd.set_option('display.expand_frame_repr', False)
 
-sql_user = input("SQL User: ")
-sql_password = getpass("Password: ")
+load_dotenv()
+sql_user = os.getenv("SQL_USER")
+sql_password = os.getenv("SQL_PASSWORD")
 
 
 # Load SQL templates
